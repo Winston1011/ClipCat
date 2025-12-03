@@ -1,7 +1,5 @@
 # ClipCat（macOS）
 
-[English](README.en.md) | [中文](README.md)
-
 轻量、好看的 macOS 剪贴板管理器：采集历史、时间线浏览、收藏分组、直接粘贴、快速粘贴、即时搜索等能力，帮助你更快地跨应用粘贴内容。
 
 ## 功能特性
@@ -26,7 +24,7 @@
 ![演示视频](docs/video/demo.mp4)
 
 ## 安装指南
-1. 从 [Releases](https://github.com/Winston10111/ClipCat/releases) 下载最新版本的`.dmg`。
+1. 从 [Releases](https://github.com/Winston1011/ClipCat/releases/) 下载最新版本的`.dmg`。
 2. 打开下载的文件，将 `ClipCat.app` 拖入 `Applications` 文件夹。
 3. 首次安装时，需要开启允许已知开发者的应用。
    - 打开“系统偏好设置” → “安全性与隐私” → “安全”
