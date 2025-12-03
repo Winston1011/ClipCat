@@ -1,0 +1,64 @@
+"settings.title" = "Settings";
+"settings.section.general" = "General";
+"settings.retentionDays" = "Retention Days";
+"settings.maxItems" = "Max Items";
+"settings.appLanguage" = "App Language";
+"settings.historyLayout" = "History Layout";
+"settings.historyLayout.horizontal" = "Horizontal List";
+"settings.historyLayout.grid" = "Grid";
+"settings.historyLayout.vertical" = "Vertical List";
+"settings.panelPosition" = "Panel Position";
+"settings.panelPosition.vertical" = "Vertical Position";
+"settings.panelPosition.horizontal" = "Horizontal Position";
+"settings.panelPosition.unavailableForGrid" = "Not adjustable in Grid layout";
+"shortcuts.title" = "Shortcuts";
+"shortcuts.panel" = "Panel";
+"about.title" = "About";
+"about.text" = "Open-source. Focused on simple, beautiful, and smooth experience.";
+"language.zh" = "Chinese";
+"language.en" = "English";
+
+"panel.menu.panel" = "Panel";
+"panel.menu.settings" = "Settings";
+"panel.menu.quit" = "Quit";
+"alert.accessibility.title" = "Accessibility permission required";
+"alert.accessibility.message" = "Please enable ClipCat in System Settings > Privacy & Security > Accessibility to use global paste and auto-hide features.";
+"alert.accessibility.openSettings" = "Open Settings";
+"alert.accessibility.later" = "Later";
+"window.settings.title" = "Settings";
+
+"toast.copiedPlain" = "Copied as plain text";
+"toast.copied" = "Copied to clipboard";
+"toast.addedToBoard" = "Added to board";
+"toast.deleted" = "Deleted";
+"permission.inputMonitoring" = "Input monitoring permission required";
+
+"timeline.rename.namePlaceholder" = "Name";
+"timeline.rename.save" = "Save";
+"timeline.rename.cancel" = "Cancel";
+"timeline.count.chars" = "chars";
+"timeline.help.copy" = "Copy to clipboard";
+"timeline.help.pastePlain" = "Paste as plain text";
+"timeline.help.delete" = "Delete";
+"timeline.help.addToBoard" = "Add to board";
+
+"panel.newBoard.title" = "New Board";
+"panel.name.placeholder" = "Name";
+"panel.cancel" = "Cancel";
+"panel.add" = "Add";
+"panel.search.placeholder" = "Search";
+"panel.defaultBoard.uneditable" = "Default board cannot be edited";
+"panel.editName" = "Edit Name…";
+"panel.changeColor" = "Change Color…";
+"panel.deleteBoard" = "Delete Board";
+"panel.rename.title" = "Rename";
+"panel.rename.untitled" = "Untitled";
+"panel.boardColor.title" = "Board Color";
+"panel.clear" = "Clear";
+"panel.color.hexPlaceholder" = "Hex, e.g. #FF8800";
+
+"boards.default.displayName" = "Clipboard";
+"preview.json.format" = "Format JSON";
+"preview.json.unformat" = "Unformat";
+"preview.time.convert" = "Convert Time";
+"preview.time.undo" = "Undo Conversion";

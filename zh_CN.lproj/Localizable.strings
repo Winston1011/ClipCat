@@ -1,0 +1,64 @@
+"settings.title" = "设置";
+"settings.section.general" = "通用";
+"settings.retentionDays" = "保留天数";
+"settings.maxItems" = "保留条数";
+"settings.appLanguage" = "应用语言";
+"settings.historyLayout" = "历史布局";
+"settings.historyLayout.horizontal" = "横向列表";
+"settings.historyLayout.grid" = "网格布局";
+"settings.historyLayout.vertical" = "纵向列表";
+"settings.panelPosition" = "面板位置";
+"settings.panelPosition.vertical" = "垂直位置";
+"settings.panelPosition.horizontal" = "水平位置";
+"settings.panelPosition.unavailableForGrid" = "网格布局不支持调整";
+"shortcuts.title" = "快捷键";
+"shortcuts.panel" = "面板";
+"about.title" = "声明";
+"about.text" = "本软件开源，致力于提供简约、好看、丝滑的使用体验。";
+"language.zh" = "中文";
+"language.en" = "English";
+
+"panel.menu.panel" = "面板";
+"panel.menu.settings" = "设置";
+"panel.menu.quit" = "退出";
+"alert.accessibility.title" = "需要辅助权限";
+"alert.accessibility.message" = "请在系统设置的隐私与安全 > 辅助功能中为 ClipCat 开启权限，以使用全局粘贴和自动隐藏等功能。";
+"alert.accessibility.openSettings" = "打开设置";
+"alert.accessibility.later" = "稍后";
+"window.settings.title" = "设置";
+
+"toast.copiedPlain" = "已复制为纯文本";
+"toast.copied" = "已复制到剪贴板";
+"toast.addedToBoard" = "已添加到分组";
+"toast.deleted" = "已删除";
+"permission.inputMonitoring" = "需要输入监控权限";
+
+"timeline.rename.namePlaceholder" = "名称";
+"timeline.rename.save" = "保存";
+"timeline.rename.cancel" = "取消";
+"timeline.count.chars" = "字符";
+"timeline.help.copy" = "复制到剪贴板";
+"timeline.help.pastePlain" = "以纯文本复制";
+"timeline.help.delete" = "删除";
+"timeline.help.addToBoard" = "添加至分组";
+
+"panel.newBoard.title" = "新增收藏分组";
+"panel.name.placeholder" = "名称";
+"panel.cancel" = "取消";
+"panel.add" = "添加";
+"panel.search.placeholder" = "搜索";
+"panel.defaultBoard.uneditable" = "默认分组不可更改";
+"panel.editName" = "编辑名称…";
+"panel.changeColor" = "修改颜色…";
+"panel.deleteBoard" = "删除分组";
+"panel.rename.title" = "重命名";
+"panel.rename.untitled" = "未命名";
+"panel.boardColor.title" = "分组颜色";
+"panel.clear" = "清除";
+"panel.color.hexPlaceholder" = "十六进制，例如 #FF8800";
+
+"boards.default.displayName" = "剪贴板";
+"preview.json.format" = "格式化 JSON";
+"preview.json.unformat" = "取消格式化";
+"preview.time.convert" = "转换时间";
+"preview.time.undo" = "取消转换";

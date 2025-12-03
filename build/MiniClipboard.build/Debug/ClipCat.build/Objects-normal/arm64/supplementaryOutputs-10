@@ -1,0 +1,23 @@
+{
+  "/Users/dengzhi01/Documents/trae_projects/clipcat/Models/ClipItem.swift" : {
+    "const-values" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ClipItem.swiftconstvalues",
+    "dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ClipItem.d",
+    "diagnostics" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ClipItem.dia",
+    "object" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ClipItem.o",
+    "swift-dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ClipItem.swiftdeps"
+  },
+  "/Users/dengzhi01/Documents/trae_projects/clipcat/Models/Enums.swift" : {
+    "const-values" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Enums.swiftconstvalues",
+    "dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Enums.d",
+    "diagnostics" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Enums.dia",
+    "object" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Enums.o",
+    "swift-dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Enums.swiftdeps"
+  },
+  "/Users/dengzhi01/Documents/trae_projects/clipcat/Models/Pinboard.swift" : {
+    "const-values" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Pinboard.swiftconstvalues",
+    "dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Pinboard.d",
+    "diagnostics" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Pinboard.dia",
+    "object" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Pinboard.o",
+    "swift-dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/Pinboard.swiftdeps"
+  }
+}

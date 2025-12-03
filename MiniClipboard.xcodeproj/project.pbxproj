@@ -1,0 +1,391 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A100001001 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000101 /* App.swift */; };
+		A100001002 /* PanelWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000102 /* PanelWindowController.swift */; };
+		A100001003 /* HistoryTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000201 /* HistoryTimelineView.swift */; };
+		A100001004 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000202 /* SettingsView.swift */; };
+		A100001005 /* ClipboardMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000301 /* ClipboardMonitor.swift */; };
+		A100001006 /* PasteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000302 /* PasteService.swift */; };
+		A100001007 /* HotkeyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000303 /* HotkeyService.swift */; };
+		A100001008 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000304 /* SearchService.swift */; };
+		A100001009 /* PrivacyRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000305 /* PrivacyRules.swift */; };
+		A10000100A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000306 /* Protocols.swift */; };
+		A10000100B /* IndexStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000401 /* IndexStore.swift */; };
+		A10000100C /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000402 /* SettingsStore.swift */; };
+		A10000100D /* ClipItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000501 /* ClipItem.swift */; };
+		A10000100E /* Pinboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000502 /* Pinboard.swift */; };
+		A10000100F /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000503 /* Enums.swift */; };
+		A100001010 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000504 /* Settings.swift */; };
+		A100001011 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000601 /* AppKit.framework */; };
+		A100001012 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000602 /* SwiftUI.framework */; };
+		A100001013 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000105 /* AppController.swift */; };
+		A100001014 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000106 /* AppDelegate.swift */; };
+		A100001015 /* PanelRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000205 /* PanelRootView.swift */; };
+		A100001016 /* WindowDragHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000206 /* WindowDragHandle.swift */; };
+		A100001017 /* ShortcutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000207 /* ShortcutRecorder.swift */; };
+		A100001018 /* public in Resources */ = {isa = PBXBuildFile; fileRef = A100000F10 /* public */; };
+		A100001019 /* logo.icns in Resources */ = {isa = PBXBuildFile; fileRef = A100000F11 /* logo.icns */; };
+		A10000101A /* PreviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000307 /* PreviewService.swift */; };
+		A10000101B /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000308 /* Localization.swift */; };
+		A10000101C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A100001020 /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A100000001 /* ClipCat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = ClipCat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A100000101 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		A100000102 /* PanelWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelWindowController.swift; sourceTree = "<group>"; };
+		A100000103 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A100000104 /* ClipCat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipCat.entitlements; sourceTree = "<group>"; };
+		A100000105 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
+		A100000106 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A100000201 /* HistoryTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTimelineView.swift; sourceTree = "<group>"; };
+		A100000202 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A100000205 /* PanelRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelRootView.swift; sourceTree = "<group>"; };
+		A100000206 /* WindowDragHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowDragHandle.swift; sourceTree = "<group>"; };
+		A100000207 /* ShortcutRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRecorder.swift; sourceTree = "<group>"; };
+		A100000301 /* ClipboardMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardMonitor.swift; sourceTree = "<group>"; };
+		A100000302 /* PasteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteService.swift; sourceTree = "<group>"; };
+		A100000303 /* HotkeyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyService.swift; sourceTree = "<group>"; };
+		A100000304 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
+		A100000305 /* PrivacyRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyRules.swift; sourceTree = "<group>"; };
+		A100000306 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		A100000307 /* PreviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewService.swift; sourceTree = "<group>"; };
+		A100000308 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		A100000401 /* IndexStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexStore.swift; sourceTree = "<group>"; };
+		A100000402 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		A100000501 /* ClipItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipItem.swift; sourceTree = "<group>"; };
+		A100000502 /* Pinboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pinboard.swift; sourceTree = "<group>"; };
+		A100000503 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		A100000504 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		A100000601 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		A100000602 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A100000F10 /* public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = public; sourceTree = "<group>"; };
+		A100000F11 /* logo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = logo.icns; path = public/logo.icns; sourceTree = "<group>"; };
+		A100001021 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A100001022 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A100000700 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100001011 /* AppKit.framework in Frameworks */,
+				A100001012 /* SwiftUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A100000800 = {
+			isa = PBXGroup;
+			children = (
+				A100000900 /* App */,
+				A100000A00 /* UI */,
+				A100000B00 /* Services */,
+				A100000C00 /* Storage */,
+				A100000D00 /* Models */,
+				A100000F10 /* public */,
+				A100000F11 /* logo.icns */,
+				A100001020 /* Localizable.strings */,
+				A100000001 /* ClipCat.app */,
+				A100000E00 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A100000900 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A100000101 /* App.swift */,
+				A100000102 /* PanelWindowController.swift */,
+				A100000105 /* AppController.swift */,
+				A100000106 /* AppDelegate.swift */,
+				A100000103 /* Info.plist */,
+				A100000104 /* ClipCat.entitlements */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A100000A00 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A100000201 /* HistoryTimelineView.swift */,
+				A100000202 /* SettingsView.swift */,
+				A100000205 /* PanelRootView.swift */,
+				A100000206 /* WindowDragHandle.swift */,
+				A100000207 /* ShortcutRecorder.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A100000B00 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A100000301 /* ClipboardMonitor.swift */,
+				A100000302 /* PasteService.swift */,
+				A100000303 /* HotkeyService.swift */,
+				A100000304 /* SearchService.swift */,
+				A100000305 /* PrivacyRules.swift */,
+				A100000306 /* Protocols.swift */,
+				A100000307 /* PreviewService.swift */,
+				A100000308 /* Localization.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A100000C00 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				A100000401 /* IndexStore.swift */,
+				A100000402 /* SettingsStore.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		A100000D00 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A100000501 /* ClipItem.swift */,
+				A100000502 /* Pinboard.swift */,
+				A100000503 /* Enums.swift */,
+				A100000504 /* Settings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A100000E00 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A100000601 /* AppKit.framework */,
+				A100000602 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A100000F00 /* ClipCat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100001500 /* Build configuration list for PBXNativeTarget "ClipCat" */;
+			buildPhases = (
+				A100001300 /* Sources */,
+				A100000700 /* Frameworks */,
+				A100001320 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClipCat;
+			productName = ClipCat;
+			productReference = A100000001 /* ClipCat.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A100001000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = A100001600 /* Build configuration list for PBXProject "MiniClipboard" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				zh_CN,
+			);
+			mainGroup = A100000800;
+			productRefGroup = A100000800;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A100000F00 /* ClipCat */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A100001320 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100001018 /* public in Resources */,
+				A100001019 /* logo.icns in Resources */,
+				A10000101C /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A100001300 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100001001 /* App.swift in Sources */,
+				A100001002 /* PanelWindowController.swift in Sources */,
+				A100001003 /* HistoryTimelineView.swift in Sources */,
+				A100001004 /* SettingsView.swift in Sources */,
+				A100001005 /* ClipboardMonitor.swift in Sources */,
+				A100001006 /* PasteService.swift in Sources */,
+				A100001007 /* HotkeyService.swift in Sources */,
+				A100001008 /* SearchService.swift in Sources */,
+				A100001009 /* PrivacyRules.swift in Sources */,
+				A10000100A /* Protocols.swift in Sources */,
+				A10000100B /* IndexStore.swift in Sources */,
+				A10000100C /* SettingsStore.swift in Sources */,
+				A10000100D /* ClipItem.swift in Sources */,
+				A10000100E /* Pinboard.swift in Sources */,
+				A10000100F /* Enums.swift in Sources */,
+				A100001010 /* Settings.swift in Sources */,
+				A100001013 /* AppController.swift in Sources */,
+				A100001014 /* AppDelegate.swift in Sources */,
+				A100001015 /* PanelRootView.swift in Sources */,
+				A100001016 /* WindowDragHandle.swift in Sources */,
+				A100001017 /* ShortcutRecorder.swift in Sources */,
+				A10000101A /* PreviewService.swift in Sources */,
+				A10000101B /* Localization.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A100001020 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A100001021 /* en */,
+				A100001022 /* zh_CN */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A100001401 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_ENTITLEMENTS = App/ClipCat.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q2XYXR7M6J;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipCat;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = epochdz.clipcat;
+				PRODUCT_NAME = ClipCat;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		A100001402 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_ENTITLEMENTS = App/ClipCat.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q2XYXR7M6J;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipCat;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = epochdz.clipcat;
+				PRODUCT_NAME = ClipCat;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		A100001701 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		A100001702 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A100001500 /* Build configuration list for PBXNativeTarget "ClipCat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100001401 /* Debug */,
+				A100001402 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A100001600 /* Build configuration list for PBXProject "MiniClipboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100001701 /* Debug */,
+				A100001702 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A100001000 /* Project object */;
+}

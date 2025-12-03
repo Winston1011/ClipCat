@@ -1,0 +1,23 @@
+{
+  "/Users/dengzhi01/Documents/trae_projects/clipcat/UI/PanelRootView.swift" : {
+    "const-values" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PanelRootView.swiftconstvalues",
+    "dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PanelRootView.d",
+    "diagnostics" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PanelRootView.dia",
+    "object" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PanelRootView.o",
+    "swift-dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PanelRootView.swiftdeps"
+  },
+  "/Users/dengzhi01/Documents/trae_projects/clipcat/UI/ShortcutRecorder.swift" : {
+    "const-values" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ShortcutRecorder.swiftconstvalues",
+    "dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ShortcutRecorder.d",
+    "diagnostics" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ShortcutRecorder.dia",
+    "object" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ShortcutRecorder.o",
+    "swift-dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/ShortcutRecorder.swiftdeps"
+  },
+  "/Users/dengzhi01/Documents/trae_projects/clipcat/UI/WindowDragHandle.swift" : {
+    "const-values" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/WindowDragHandle.swiftconstvalues",
+    "dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/WindowDragHandle.d",
+    "diagnostics" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/WindowDragHandle.dia",
+    "object" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/WindowDragHandle.o",
+    "swift-dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/WindowDragHandle.swiftdeps"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "/Users/dengzhi01/Documents/trae_projects/clipcat/Services/HotkeyService.swift" : {
+    "const-values" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/HotkeyService.swiftconstvalues",
+    "dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/HotkeyService.d",
+    "diagnostics" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/HotkeyService.dia",
+    "object" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/HotkeyService.o",
+    "swift-dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/HotkeyService.swiftdeps"
+  },
+  "/Users/dengzhi01/Documents/trae_projects/clipcat/Services/PrivacyRules.swift" : {
+    "const-values" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PrivacyRules.swiftconstvalues",
+    "dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PrivacyRules.d",
+    "diagnostics" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PrivacyRules.dia",
+    "object" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PrivacyRules.o",
+    "swift-dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/PrivacyRules.swiftdeps"
+  },
+  "/Users/dengzhi01/Documents/trae_projects/clipcat/Services/SearchService.swift" : {
+    "const-values" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/SearchService.swiftconstvalues",
+    "dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/SearchService.d",
+    "diagnostics" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/SearchService.dia",
+    "object" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/SearchService.o",
+    "swift-dependencies" : "/Users/dengzhi01/Documents/trae_projects/clipcat/build/MiniClipboard.build/Debug/ClipCat.build/Objects-normal/arm64/SearchService.swiftdeps"
+  }
+}
