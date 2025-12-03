@@ -21,9 +21,9 @@
 - 多选：`Shift` 或 `Command` 键 + 鼠标点击
 
 ## 界面预览
-![列表布局](docs/image/list_mode.png)
+![列表布局](docs/image/demo.png)
 查看演示视频：👇
-[![演示视频](docs/image/cover.png)](https://youtu.be/ID8JOoSwYC8)
+![演示视频](docs/video/demo.mp4)
 
 ## 安装指南
 1. 从 [Releases](https://github.com/Winston10111/ClipCat/releases) 下载最新版本的`.dmg`。
