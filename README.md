@@ -19,9 +19,9 @@
 - 多选：`Shift` 或 `Command` 键 + 鼠标点击
 
 ## 界面预览
-![列表布局](docs/image/demo.png)
-查看演示视频：👇
-![演示视频](docs/video/demo.mp4)
+![网格布局](docs/image/demo.png)
+查看演示视频(mp4)：👇
+[![ClipCat 演示视频](docs/image/demo_cover.png)](https://www.bilibili.com/video/BV1Ve2YBwExp/)
 
 ## 安装指南
 1. 从 [Releases](https://github.com/Winston1011/ClipCat/releases/) 下载最新版本的`.dmg`。
@@ -38,7 +38,7 @@
 
 ## 快速开始
 ### 使用 Xcode
-- 打开 `MiniClipboard.xcodeproj`，选择 `ClipCat` Scheme，直接运行。
+- 打开 `ClipCat.xcodeproj`，选择 `ClipCat` Scheme，直接运行。
 
 ### 使用 Makefile
 - 构建 Debug：

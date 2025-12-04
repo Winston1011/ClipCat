@@ -227,7 +227,7 @@ public final class PanelWindowController: NSObject, NSWindowDelegate, NSTextFiel
         let newH = targetHeight()
         let newSize = NSSize(width: newW, height: newH)
         let newOrigin = targetOrigin(for: newSize)
-        var f = NSRect(origin: newOrigin, size: newSize)
+        let f = NSRect(origin: newOrigin, size: newSize)
         if animated {
             NSAnimationContext.runAnimationGroup { ctx in
                 ctx.duration = 0.12

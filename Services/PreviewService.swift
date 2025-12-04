@@ -7,6 +7,8 @@ public final class PreviewService: NSObject {
     private var panel: NSPanel?
     private var hosting: NSHostingView<AnyView>?
     private var effectView: NSVisualEffectView?
+    private var isMaximized: Bool = false
+    private var previousFrame: NSRect?
     public enum PreviewPlacement { case centerOnScreen, rightOf, below, centerOverRect, bottomCenter, rightCenter, topCenter, leftCenter }
     public func show(_ item: ClipItem, anchorRect: NSRect? = nil, placement: PreviewPlacement = .centerOnScreen) {
         let size = NSSize(width: 560, height: 400)
@@ -34,7 +36,10 @@ public final class PreviewService: NSObject {
             ev.wantsLayer = true
             ev.layer?.cornerRadius = 16
             ev.layer?.masksToBounds = true
-            let v = AnyView(PreviewContentView(item: item))
+            let v = AnyView(PreviewContentView(item: item, onToggleMaximize: { [weak self] in
+                self?.toggleMaximize()
+                return self?.isMaximized ?? false
+            }))
             let h = NSHostingView(rootView: v)
             h.translatesAutoresizingMaskIntoConstraints = false
             ev.addSubview(h)
@@ -49,12 +54,16 @@ public final class PreviewService: NSObject {
             hosting = h
             effectView = ev
         } else {
-            hosting?.rootView = AnyView(PreviewContentView(item: item))
+            hosting?.rootView = AnyView(PreviewContentView(item: item, onToggleMaximize: { [weak self] in
+                self?.toggleMaximize()
+                return self?.isMaximized ?? false
+            }))
         }
         guard let w = panel else { return }
         if w.isVisible {
             return
         }
+        isMaximized = false
         if let s = activeScreen() ?? NSScreen.main {
             let f = s.visibleFrame
             let finalFrame: NSRect = {
@@ -195,15 +204,44 @@ public final class PreviewService: NSObject {
         for s in NSScreen.screens { if s.frame.contains(p) { return s } }
         return nil
     }
+
+    public func toggleMaximize() {
+        guard let w = panel else { return }
+        if !isMaximized {
+            previousFrame = w.frame
+            let vf = (activeScreen() ?? NSScreen.main)?.visibleFrame ?? w.frame
+            let margin: CGFloat = 8
+            let target = NSRect(x: vf.minX + margin, y: vf.minY + margin, width: vf.width - margin * 2, height: vf.height - margin * 2)
+            NSAnimationContext.runAnimationGroup { ctx in
+                ctx.duration = 0.16
+                (w.animator()).setFrame(target, display: true)
+            }
+            isMaximized = true
+        } else {
+            let target = previousFrame ?? w.frame
+            NSAnimationContext.runAnimationGroup { ctx in
+                ctx.duration = 0.16
+                (w.animator()).setFrame(target, display: true)
+            }
+            isMaximized = false
+        }
+    }
 }
 
 private struct PreviewContentView: View {
     let item: ClipItem
+    let onToggleMaximize: (() -> Bool)?
+    @State private var isMaximized: Bool = false
     @State private var usePrettyJSON: Bool = false
     @State private var useTimeConversion: Bool = false
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
+                Button(action: { if let cb = onToggleMaximize { isMaximized = cb() } }) {
+                    Image(systemName: isMaximized ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
+                }
+                .buttonStyle(.plain)
+                .font(.system(size: 12))
                 Text(item.name)
                     .font(.system(size: 14, weight: .semibold))
                 Spacer()
@@ -213,13 +251,14 @@ private struct PreviewContentView: View {
             }
             if item.type == .text {
                 let raw = item.text ?? ""
+                let isLarge = raw.count > 200000
                 HStack(spacing: 8) {
-                    if isJSON(raw) {
+                    if !isLarge && isJSON(raw) {
                         Button(usePrettyJSON ? L("preview.json.unformat") : L("preview.json.format")) { usePrettyJSON.toggle() }
                             .buttonStyle(.bordered)
                             .font(.system(size: 11))
                     }
-                    if detectsTime(raw) {
+                    if !isLarge && detectsTime(raw) {
                         Button(useTimeConversion ? L("preview.time.undo") : L("preview.time.convert")) { useTimeConversion.toggle() }
                             .buttonStyle(.bordered)
                             .font(.system(size: 11))
@@ -239,18 +278,9 @@ private struct PreviewContentView: View {
         case .text:
             let s = computedDisplayText(item.text ?? "")
             if s.count > 50000 {
-                if #available(macOS 13.0, *) {
-                    TextEditor(text: .constant(s))
-                        .font(isProbableCode(s) || isJSON(s) ? .system(size: 13, design: .monospaced) : .system(size: 13))
-                        .scrollContentBackground(.hidden)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.clear)
-                } else {
-                    TextEditor(text: .constant(s))
-                        .font(isProbableCode(s) || isJSON(s) ? .system(size: 13, design: .monospaced) : .system(size: 13))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.clear)
-                }
+                LargeTextView(text: s)
+                    .id(item.id)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 if isProbableCode(s) || isJSON(s) {
                     SyntaxTextView(text: s)

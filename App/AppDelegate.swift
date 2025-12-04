@@ -46,9 +46,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     private func buildStatusMenu() -> NSMenu {
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: L("panel.menu.panel"), action: #selector(openPanel), keyEquivalent: ""))
-        menu.addItem(NSMenuItem(title: L("panel.menu.settings"), action: #selector(openSettings), keyEquivalent: ""))
-        menu.addItem(NSMenuItem(title: L("panel.menu.quit"), action: #selector(quitApp), keyEquivalent: ""))
+
+        let panelItem = NSMenuItem(title: L("panel.menu.panel"), action: #selector(openPanel), keyEquivalent: "")
+        if let img = NSImage(systemSymbolName: "square.grid.2x2", accessibilityDescription: nil) {
+            img.isTemplate = true
+            panelItem.image = img
+        }
+        menu.addItem(panelItem)
+
+        let settingsItem = NSMenuItem(title: L("panel.menu.settings"), action: #selector(openSettings), keyEquivalent: "")
+        if let img = NSImage(systemSymbolName: "gearshape", accessibilityDescription: nil) {
+            img.isTemplate = true
+            settingsItem.image = img
+        }
+        menu.addItem(settingsItem)
+
+        let quitItem = NSMenuItem(title: L("panel.menu.quit"), action: #selector(quitApp), keyEquivalent: "")
+        if let img = NSImage(systemSymbolName: "power", accessibilityDescription: nil) {
+            img.isTemplate = true
+            quitItem.image = img
+        }
+        menu.addItem(quitItem)
+
         return menu
     }
     private func observeLanguageChanges() {
