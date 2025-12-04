@@ -35,7 +35,7 @@ public final class HotkeyService: HotkeyServiceProtocol {
         if let parsed = parseShortcut(s) {
             RegisterEventHotKey(parsed.key, parsed.mods, id, GetApplicationEventTarget(), 0, &ref)
         } else {
-            RegisterEventHotKey(UInt32(kVK_ANSI_P), UInt32(cmdKey | shiftKey), id, GetApplicationEventTarget(), 0, &ref)
+            RegisterEventHotKey(UInt32(kVK_ANSI_V), UInt32(cmdKey | shiftKey), id, GetApplicationEventTarget(), 0, &ref)
         }
         showPanelRef = ref
     }

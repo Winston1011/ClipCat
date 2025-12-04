@@ -12,7 +12,7 @@ public struct Shortcuts: Codable, Equatable {
     public var quickPaste: [String]
     public var stackToggle: String
     public var pastePlainText: String
-    public init(showPanel: String = "shift+cmd+p", quickPaste: [String] = ["cmd+1","cmd+2","cmd+3","cmd+4","cmd+5","cmd+6","cmd+7","cmd+8","cmd+9"], stackToggle: String = "shift+cmd+c", pastePlainText: String = "shift+return") {
+    public init(showPanel: String = "shift+cmd+v", quickPaste: [String] = ["cmd+1","cmd+2","cmd+3","cmd+4","cmd+5","cmd+6","cmd+7","cmd+8","cmd+9"], stackToggle: String = "shift+cmd+c", pastePlainText: String = "shift+return") {
         self.showPanel = showPanel
         self.quickPaste = quickPaste
         self.stackToggle = stackToggle

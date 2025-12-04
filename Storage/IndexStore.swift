@@ -2,11 +2,14 @@ import Foundation
 
 // 本地索引存储：维护剪贴历史、看板与关联关系，提供查询与置顶能力
 public final class IndexStore: IndexStoreProtocol {
+    public static let shared = IndexStore()
+    public static let changeNotification = Notification.Name("IndexStoreDidChange")
     private var items: [ClipItem] = []
     private var pinboards: [Pinboard] = []
     private var boardItems: [UUID: Set<UUID>] = [:]
     private var contentCache: [UUID: String] = [:]
     private let queue = DispatchQueue(label: "store.queue", qos: .userInitiated)
+    private let queueKey = DispatchSpecificKey<String>()
     public private(set) var defaultBoardID: UUID
     private let indexURL: URL
     private let contentDir: URL
@@ -26,6 +29,7 @@ public final class IndexStore: IndexStoreProtocol {
         self.indexURL = appDir.appendingPathComponent("index.json")
         self.pinboards = []
         self.defaultBoardID = UUID()
+        queue.setSpecific(key: queueKey, value: "store.queue")
         loadSnapshot()
         let s = settingsStore.load()
         queue.sync {
@@ -54,14 +58,28 @@ public final class IndexStore: IndexStoreProtocol {
         }
     }
     public func item(_ id: UUID) -> ClipItem? {
-        queue.sync { items.first { $0.id == id } }
+        if DispatchQueue.getSpecific(key: queueKey) != nil { return items.first { $0.id == id } }
+        return queue.sync { items.first { $0.id == id } }
     }
     public func query(_ filters: SearchFilters, query: String?, limit: Int, offset: Int) -> [ClipItem] {
-        queue.sync {
+        if DispatchQueue.getSpecific(key: queueKey) != nil {
             var r = items
             // 类型过滤
             if !filters.types.isEmpty { r = r.filter { filters.types.contains($0.type) } }
             // 来源应用过滤
+            if !filters.sourceApps.isEmpty { r = r.filter { filters.sourceApps.contains($0.sourceApp) } }
+            if let q = query, !q.isEmpty {
+                let qs = q.lowercased()
+                r = r.filter { itemMatches($0, qs: qs) }
+            }
+            let s = offset
+            let e = min(r.count, s + max(0, limit))
+            if s >= e { return [] }
+            return Array(r[s..<e])
+        }
+        return queue.sync {
+            var r = items
+            if !filters.types.isEmpty { r = r.filter { filters.types.contains($0.type) } }
             if !filters.sourceApps.isEmpty { r = r.filter { filters.sourceApps.contains($0.sourceApp) } }
             if let q = query, !q.isEmpty {
                 let qs = q.lowercased()
@@ -148,9 +166,16 @@ public final class IndexStore: IndexStoreProtocol {
     }
     public func listPinboards() -> [Pinboard] { pinboards.sorted { $0.order < $1.order } }
     public func listItems(in boardID: UUID) -> [ClipItem] {
-        if boardID == defaultBoardID { return items }
-        let ids = boardItems[boardID] ?? []
-        return items.filter { ids.contains($0.id) }
+        if DispatchQueue.getSpecific(key: queueKey) != nil {
+            if boardID == defaultBoardID { return items }
+            let ids = boardItems[boardID] ?? []
+            return items.filter { ids.contains($0.id) }
+        }
+        return queue.sync {
+            if boardID == defaultBoardID { return items }
+            let ids = boardItems[boardID] ?? []
+            return items.filter { ids.contains($0.id) }
+        }
     }
     public func moveToFront(_ id: UUID) {
         queue.sync {
@@ -237,6 +262,7 @@ public final class IndexStore: IndexStoreProtocol {
         let mapped = boardItems.mapValues { Array($0) }
         let snap = Snapshot(items: items, pinboards: pinboards, boardItems: mapped)
         if let d = try? encoder.encode(snap) { try? d.write(to: indexURL) }
+        NotificationCenter.default.post(name: IndexStore.changeNotification, object: nil)
     }
 
     private func ensurePermanentContent(_ item: ClipItem) -> ClipItem {
@@ -287,5 +313,84 @@ public final class IndexStore: IndexStoreProtocol {
         let existing = Set(items.map { $0.id })
         contentCache = contentCache.filter { existing.contains($0.key) }
         if items.count != beforeCount { persist() }
+    }
+
+    public func exportBackup(to url: URL) throws {
+        let mapped = boardItems.mapValues { Array($0) }
+        struct ClipItemDTO: Codable {
+            var id: UUID
+            var type: ClipType
+            var name: String
+            var text: String?
+            var sourceApp: String
+            var copiedAt: Date
+            var metadata: [String: String]
+            var tags: [String]
+            var isPinned: Bool
+            var contentExt: String?
+            var contentData: Data?
+        }
+        struct BackupDTO: Codable {
+            var items: [ClipItemDTO]
+            var pinboards: [Pinboard]
+            var boardItems: [UUID: [UUID]]
+        }
+        var dtos: [ClipItemDTO] = []
+        for it in items {
+            var dto = ClipItemDTO(id: it.id, type: it.type, name: it.name, text: it.text, sourceApp: it.sourceApp, copiedAt: it.copiedAt, metadata: it.metadata, tags: it.tags, isPinned: it.isPinned, contentExt: nil, contentData: nil)
+            if let u = it.contentRef, let d = try? Data(contentsOf: u) {
+                dto.contentExt = u.pathExtension.isEmpty ? nil : u.pathExtension
+                dto.contentData = d
+            }
+            dtos.append(dto)
+        }
+        let backup = BackupDTO(items: dtos, pinboards: pinboards, boardItems: mapped)
+        let d = try encoder.encode(backup)
+        try d.write(to: url)
+    }
+
+    public func importBackup(from url: URL) throws {
+        struct ClipItemDTO: Codable {
+            var id: UUID
+            var type: ClipType
+            var name: String
+            var text: String?
+            var sourceApp: String
+            var copiedAt: Date
+            var metadata: [String: String]
+            var tags: [String]
+            var isPinned: Bool
+            var contentExt: String?
+            var contentData: Data?
+        }
+        struct BackupDTO: Codable {
+            var items: [ClipItemDTO]
+            var pinboards: [Pinboard]
+            var boardItems: [UUID: [UUID]]
+        }
+        let d = try Data(contentsOf: url)
+        let backup = try decoder.decode(BackupDTO.self, from: d)
+        var newItems: [ClipItem] = []
+        for dto in backup.items {
+            var contentURL: URL? = nil
+            if let ext = dto.contentExt, let data = dto.contentData {
+                let dst = contentDir.appendingPathComponent(dto.id.uuidString).appendingPathExtension(ext)
+                try? data.write(to: dst)
+                contentURL = dst
+            }
+            let it = ClipItem(id: dto.id, type: dto.type, contentRef: contentURL, text: dto.text, sourceApp: dto.sourceApp, copiedAt: dto.copiedAt, metadata: dto.metadata, tags: dto.tags, isPinned: dto.isPinned, name: dto.name)
+            newItems.append(it)
+        }
+        var newBoards: [Pinboard] = backup.pinboards
+        var newBoardItems: [UUID: Set<UUID>] = [:]
+        for (k, v) in backup.boardItems { newBoardItems[k] = Set(v) }
+        queue.sync {
+            items = newItems
+            pinboards = newBoards
+            boardItems = newBoardItems
+            contentCache.removeAll()
+            if let def = pinboards.first(where: { $0.name == "剪贴板" }) { defaultBoardID = def.id }
+            persist()
+        }
     }
 }

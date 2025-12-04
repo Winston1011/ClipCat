@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 
 public struct SettingsView: View {
     @State private var settings = AppSettings()
@@ -7,9 +8,11 @@ public struct SettingsView: View {
     @AppStorage("panelPositionVertical") private var panelPositionVertical: Double = 0
     @AppStorage("panelPositionHorizontal") private var panelPositionHorizontal: Double = 0
     private let settingsStore = SettingsStore()
+    private let store = IndexStore.shared
     public init() {}
     public var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 8) {
             Text(L("settings.title"))
                 .font(.system(size: 16, weight: .semibold))
             VStack(alignment: .leading, spacing: 8) {
@@ -118,6 +121,32 @@ public struct SettingsView: View {
                     .stroke(Color.primary.opacity(0.05), lineWidth: 1)
             )
             VStack(alignment: .leading, spacing: 8) {
+                Text(L("backup.title"))
+                    .font(.system(size: 13, weight: .medium))
+                VStack(spacing: 6) {
+                    HStack {
+                        Button(L("backup.export")) { exportBackup() }
+                            .buttonStyle(.bordered)
+                        Spacer()
+                        Button(L("backup.import")) { importBackup() }
+                            .buttonStyle(.bordered)
+                        Text(L("backup.importWarning"))
+                            .font(.system(size: 12))
+                            .foregroundStyle(.red)
+                    }
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 8)
+                }
+            }
+            .padding(10)
+            .background(AppTheme.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.cornerRadius))
+            .shadow(color: AppTheme.shadowColor, radius: 4, x: 0, y: 2)
+            .overlay(
+                RoundedRectangle(cornerRadius: AppTheme.cornerRadius)
+                    .stroke(Color.primary.opacity(0.05), lineWidth: 1)
+            )
+            VStack(alignment: .leading, spacing: 8) {
                 Text(L("shortcuts.title"))
                     .font(.system(size: 13, weight: .medium))
                 VStack(spacing: 6) {
@@ -165,9 +194,9 @@ public struct SettingsView: View {
             )
         }
         .padding(10)
+        }
+        .frame(width: 360)
         .background(AppTheme.panelBackground)
-
-        .frame(maxWidth: 360)
         .controlSize(.small)
         .onAppear { settings = settingsStore.load() }
         .onChange(of: appLanguage) { _ in }
@@ -181,5 +210,21 @@ public struct SettingsView: View {
         .onChange(of: panelPositionVertical) { _ in }
         .onChange(of: panelPositionHorizontal) { _ in }
     }
-    
+    private func exportBackup() {
+        let panel = NSSavePanel()
+        panel.allowedFileTypes = ["json"]
+        panel.nameFieldStringValue = "ClipCatBackup.json"
+        if panel.runModal() == .OK, let url = panel.url {
+            try? store.exportBackup(to: url)
+        }
+    }
+    private func importBackup() {
+        let panel = NSOpenPanel()
+        panel.allowedFileTypes = ["json"]
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        if panel.runModal() == .OK, let url = panel.url {
+            try? store.importBackup(from: url)
+        }
+    }
 }

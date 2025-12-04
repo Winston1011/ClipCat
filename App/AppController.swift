@@ -27,7 +27,7 @@ final class AppController: ObservableObject {
     private let search: SearchService
     private var cancellables: Set<AnyCancellable> = []
     init() {
-        store = IndexStore()
+        store = IndexStore.shared
         monitor = ClipboardMonitor()
         paste = PasteService()
         hotkeys = HotkeyService()
@@ -85,6 +85,10 @@ final class AppController: ObservableObject {
             .sink { [weak self] v in self?.panel.setSearchActive(v) }
             .store(in: &cancellables)
         selectedBoardID = store.defaultBoardID
+
+        NotificationCenter.default.addObserver(forName: IndexStore.changeNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.refresh()
+        }
 
         $query
             .debounce(for: .milliseconds(120), scheduler: DispatchQueue.main)

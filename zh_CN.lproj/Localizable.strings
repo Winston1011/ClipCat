@@ -14,7 +14,7 @@
 "shortcuts.title" = "快捷键";
 "shortcuts.panel" = "面板";
 "about.title" = "声明";
-"about.text" = "本软件开源，致力于提供简约、好看、丝滑的使用体验。";
+"about.text" = "本软件开源，致力于提供好看、丝滑、便捷的使用体验。- Epoch";
 "language.zh" = "中文";
 "language.en" = "English";
 
@@ -62,3 +62,8 @@
 "preview.json.unformat" = "取消格式化";
 "preview.time.convert" = "转换时间";
 "preview.time.undo" = "取消转换";
+
+"backup.title" = "数据备份";
+"backup.export" = "导出";
+"backup.import" = "导入";
+"backup.importWarning" = "此操作会覆盖全部当前数据";
