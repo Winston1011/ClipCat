@@ -36,12 +36,29 @@ public final class ClipboardMonitor: ClipboardMonitorProtocol {
         let app = NSWorkspace.shared.frontmostApplication
         let appName = app?.localizedName ?? "Unknown"
         let bundleID = app?.bundleIdentifier
+        // 优先处理文件与图片，避免被 HTML/RTF 覆盖
         if let urls = pb.readObjects(forClasses: [NSURL.self], options: [NSPasteboard.ReadingOptionKey.urlReadingFileURLsOnly: true]) as? [URL], let u = urls.first {
             var m: [String: String] = [:]
             if let bid = bundleID { m["bundleID"] = bid }
             let item = ClipItem(type: .file, contentRef: u, text: u.lastPathComponent, sourceApp: appName, metadata: m)
             DispatchQueue.main.async { self.onItemCaptured?(item) }
             return
+        }
+        // 图片类型（写入临时文件保存）
+        if types.contains(.png) || types.contains(.tiff) {
+            var data: Data? = nil
+            var ext = "png"
+            if let d = pb.data(forType: .png) { data = d; ext = "png" }
+            else if let d = pb.data(forType: .tiff) { data = d; ext = "tiff" }
+            if let d = data {
+                let tmp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension(ext)
+                try? d.write(to: tmp)
+                var m: [String: String] = [:]
+                if let bid = bundleID { m["bundleID"] = bid }
+                let item = ClipItem(type: .image, contentRef: tmp, text: nil, sourceApp: appName, metadata: m)
+                DispatchQueue.main.async { self.onItemCaptured?(item) }
+                return
+            }
         }
         // 颜色类型
         if types.contains(.color) {
@@ -86,7 +103,7 @@ public final class ClipboardMonitor: ClipboardMonitorProtocol {
                 }
             }
         }
-        // HTML 富文本
+        // HTML 富文本（若无图片数据时才作为文本处理）
         if types.contains(.html), let d = pb.data(forType: .html) {
             let tmp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension("html")
             try? d.write(to: tmp)
@@ -116,18 +133,6 @@ public final class ClipboardMonitor: ClipboardMonitorProtocol {
                 let plainFromPB = pb.string(forType: .string)
                 if plainFromPB != nil { m["plainSource"] = "pb" } else { m["plainSource"] = "derived" }
                 let item = ClipItem(type: .text, contentRef: tmp, text: plainFromPB ?? attr.string, sourceApp: appName, metadata: m)
-                DispatchQueue.main.async { self.onItemCaptured?(item) }
-                return
-            }
-        }
-        // 图片类型（写入临时文件保存）
-        if types.contains(.tiff) || types.contains(.png) {
-            if let d = pb.data(forType: .tiff) ?? pb.data(forType: .png) {
-                let tmp = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension("png")
-                try? d.write(to: tmp)
-                var m: [String: String] = [:]
-                if let bid = bundleID { m["bundleID"] = bid }
-                let item = ClipItem(type: .image, contentRef: tmp, text: nil, sourceApp: appName, metadata: m)
                 DispatchQueue.main.async { self.onItemCaptured?(item) }
                 return
             }
