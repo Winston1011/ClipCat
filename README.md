@@ -31,3 +31,12 @@
    - 点击“已知开发者”，确认允许 `ClipCat` 安装。
 4. 从“应用程序”文件夹启动 `ClipCat`。
 ![安装设置](docs/image/install_setting.png)
+
+### TIPS
+- 如果打开是"xxx.app 已损坏，无法打开，你应该将它移到废纸篓/打不开 xxx，因为它来自身份不明的开发者解决方法"，请执行以下命令：
+```bash
+xattr -rd com.apple.quarantine /Applications/ClipCat.app
+```
+
+参考：
+- [打开损坏解决方案](https://www.macwk.com/article/12)
