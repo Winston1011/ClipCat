@@ -133,6 +133,10 @@ final class AppController: ObservableObject {
         let msg = plain ? L("toast.copiedPlain") : L("toast.copied")
         panel.showToast(msg)
     }
+    func reorderItem(_ dragID: UUID, before targetID: UUID) {
+        store.reorder(dragID, before: targetID)
+        refresh()
+    }
     func copySelectedPlainText() {
         let ids = Array(selectedIDs)
         guard !ids.isEmpty else { return }
@@ -335,6 +339,11 @@ final class AppController: ObservableObject {
         refresh()
         panel.showToast(L("toast.addedToBoard"))
         clearSelection()
+    }
+    func addToBoardExclusive(_ itemID: UUID, _ boardID: UUID) {
+        store.setBoardExclusive(itemID, to: boardID)
+        refresh()
+        panel.showToast(L("toast.addedToBoard"))
     }
     func clearSelection() {
         selectedIDs.removeAll()

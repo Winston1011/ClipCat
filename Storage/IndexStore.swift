@@ -161,6 +161,33 @@ public final class IndexStore: IndexStoreProtocol {
             }
         }
     }
+
+    public func reorder(_ id: UUID, before targetID: UUID) {
+        queue.sync {
+            guard id != targetID else { return }
+            guard let fromIdx = items.firstIndex(where: { $0.id == id }), let toIdx = items.firstIndex(where: { $0.id == targetID }) else { return }
+            let it = items.remove(at: fromIdx)
+            let insertIdx = (fromIdx < toIdx) ? toIdx - 1 : toIdx
+            items.insert(it, at: insertIdx)
+            persist()
+        }
+    }
+
+    public func setBoardExclusive(_ id: UUID, to boardID: UUID) {
+        queue.sync {
+            for b in pinboards.map({ $0.id }) where b != defaultBoardID {
+                var set = boardItems[b] ?? []
+                set.remove(id)
+                boardItems[b] = set
+            }
+            if boardID != defaultBoardID {
+                var targetSet = boardItems[boardID] ?? []
+                targetSet.insert(id)
+                boardItems[boardID] = targetSet
+            }
+            persist()
+        }
+    }
     private func isDuplicate(_ a: ClipItem, _ b: ClipItem) -> Bool {
         if a.type != b.type { return false }
         switch a.type {

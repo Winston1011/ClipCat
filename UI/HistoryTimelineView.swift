@@ -28,8 +28,10 @@ public struct HistoryTimelineView: View {
     public let selectedIDs: Set<UUID>
     public let selectedOrder: [UUID]
     public let selectionMode: Bool
+    public let onReorder: (UUID, UUID) -> Void
+    public let sidebarHovering: Bool
     @AppStorage("historyLayoutStyle") private var layoutStyleRaw: String = "horizontal"
-    public init(items: [ClipItem], boards: [Pinboard], defaultBoardID: UUID, currentBoardID: UUID?, onPaste: @escaping (ClipItem, Bool) -> Void, onAddToBoard: @escaping (ClipItem, UUID) -> Void, onDelete: @escaping (ClipItem) -> Void, selectedItemID: UUID?, onSelect: @escaping (ClipItem) -> Void, onRename: @escaping (ClipItem, String) -> Void, scrollOnSelection: Bool, selectedIDs: Set<UUID>, selectedOrder: [UUID], selectionMode: Bool, onSelectedItemFrame: ((CGRect?) -> Void)? = nil) {
+    public init(items: [ClipItem], boards: [Pinboard], defaultBoardID: UUID, currentBoardID: UUID?, onPaste: @escaping (ClipItem, Bool) -> Void, onAddToBoard: @escaping (ClipItem, UUID) -> Void, onDelete: @escaping (ClipItem) -> Void, selectedItemID: UUID?, onSelect: @escaping (ClipItem) -> Void, onRename: @escaping (ClipItem, String) -> Void, scrollOnSelection: Bool, selectedIDs: Set<UUID>, selectedOrder: [UUID], selectionMode: Bool, onReorder: @escaping (UUID, UUID) -> Void, sidebarHovering: Bool, onSelectedItemFrame: ((CGRect?) -> Void)? = nil) {
         self.items = items
         self.boards = boards
         self.defaultBoardID = defaultBoardID
@@ -44,8 +46,11 @@ public struct HistoryTimelineView: View {
         self.selectedIDs = selectedIDs
         self.selectedOrder = selectedOrder
         self.selectionMode = selectionMode
+        self.onReorder = onReorder
+        self.sidebarHovering = sidebarHovering
         self.onSelectedItemFrame = onSelectedItemFrame
     }
+    @State private var dragSourceID: UUID?
     @State private var displayedCount: Int = 60
     private var displayedItems: [ClipItem] { Array(items.prefix(displayedCount)) }
     @State private var itemFrames: [UUID: CGRect] = [:]
@@ -57,7 +62,7 @@ public struct HistoryTimelineView: View {
                     ScrollView(.horizontal) {
                         LazyHStack(spacing: 12) {
                             ForEach(displayedItems) { item in
-                                ItemCardView(item: item, boards: boards, defaultBoardID: defaultBoardID, currentBoardID: currentBoardID, onPaste: onPaste, onAddToBoard: onAddToBoard, onDelete: onDelete, selected: (selectedItemID == item.id), multiSelected: selectedIDs.contains(item.id), selectionMode: selectionMode, selectionOrder: selectedOrder, onSelect: onSelect, onRename: onRename, cardWidth: cardWidth)
+                                ItemCardView(item: item, boards: boards, defaultBoardID: defaultBoardID, currentBoardID: currentBoardID, onPaste: onPaste, onAddToBoard: onAddToBoard, onDelete: onDelete, selected: (selectedItemID == item.id), multiSelected: selectedIDs.contains(item.id), selectionMode: selectionMode, selectionOrder: selectedOrder, onSelect: onSelect, onRename: onRename, onReorder: onReorder, onDragStart: { dragSourceID = $0 }, onDragEnd: { dragSourceID = nil }, isDraggingSource: (dragSourceID == item.id), sidebarHovering: sidebarHovering, cardWidth: cardWidth)
                                     .equatable()
                                     .id(item.id)
                                     .background(
@@ -86,7 +91,7 @@ public struct HistoryTimelineView: View {
                     ScrollView {
                         LazyVGrid(columns: gridColumns, alignment: .leading, spacing: 12) {
                             ForEach(displayedItems) { item in
-                                ItemCardView(item: item, boards: boards, defaultBoardID: defaultBoardID, currentBoardID: currentBoardID, onPaste: onPaste, onAddToBoard: onAddToBoard, onDelete: onDelete, selected: (selectedItemID == item.id), multiSelected: selectedIDs.contains(item.id), selectionMode: selectionMode, selectionOrder: selectedOrder, onSelect: onSelect, onRename: onRename, cardWidth: cardWidth)
+                                ItemCardView(item: item, boards: boards, defaultBoardID: defaultBoardID, currentBoardID: currentBoardID, onPaste: onPaste, onAddToBoard: onAddToBoard, onDelete: onDelete, selected: (selectedItemID == item.id), multiSelected: selectedIDs.contains(item.id), selectionMode: selectionMode, selectionOrder: selectedOrder, onSelect: onSelect, onRename: onRename, onReorder: onReorder, onDragStart: { dragSourceID = $0 }, onDragEnd: { dragSourceID = nil }, isDraggingSource: (dragSourceID == item.id), sidebarHovering: sidebarHovering, cardWidth: cardWidth)
                                     .equatable()
                                     .id(item.id)
                                     .background(
@@ -114,7 +119,7 @@ public struct HistoryTimelineView: View {
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 12) {
                             ForEach(displayedItems) { item in
-                                ItemCardView(item: item, boards: boards, defaultBoardID: defaultBoardID, currentBoardID: currentBoardID, onPaste: onPaste, onAddToBoard: onAddToBoard, onDelete: onDelete, selected: (selectedItemID == item.id), multiSelected: selectedIDs.contains(item.id), selectionMode: selectionMode, selectionOrder: selectedOrder, onSelect: onSelect, onRename: onRename, cardWidth: cardWidth)
+                                ItemCardView(item: item, boards: boards, defaultBoardID: defaultBoardID, currentBoardID: currentBoardID, onPaste: onPaste, onAddToBoard: onAddToBoard, onDelete: onDelete, selected: (selectedItemID == item.id), multiSelected: selectedIDs.contains(item.id), selectionMode: selectionMode, selectionOrder: selectedOrder, onSelect: onSelect, onRename: onRename, onReorder: onReorder, onDragStart: { dragSourceID = $0 }, onDragEnd: { dragSourceID = nil }, isDraggingSource: (dragSourceID == item.id), sidebarHovering: sidebarHovering, cardWidth: cardWidth)
                                     .equatable()
                                     .id(item.id)
                                     .background(
@@ -195,6 +200,11 @@ private struct ItemCardView: View, Equatable {
     let selectionOrder: [UUID]
     let onSelect: (ClipItem) -> Void
     let onRename: (ClipItem, String) -> Void
+    let onReorder: (UUID, UUID) -> Void
+    let onDragStart: (UUID) -> Void
+    let onDragEnd: () -> Void
+    let isDraggingSource: Bool
+    let sidebarHovering: Bool
     var cardWidth: CGFloat = 240
     @State private var hovering = false
     @State private var showNamePopover = false
@@ -389,8 +399,40 @@ private struct ItemCardView: View, Equatable {
             .animation(.spring(dampingFraction: 0.85), value: isSelected)
             .highPriorityGesture(TapGesture(count: 2).onEnded { onPaste(item, false) })
             .simultaneousGesture(TapGesture(count: 1).onEnded { onSelect(item) })
+            .onDrag {
+                onDragStart(item.id)
+                return NSItemProvider(object: item.id.uuidString as NSString)
+            }
+            .onDrop(of: [UTType.text], isTargeted: $isDropTargeted) { providers in
+                guard let p = providers.first else { return false }
+                var handled = false
+                p.loadItem(forTypeIdentifier: UTType.text.identifier, options: nil) { (data, error) in
+                    if let str = data as? String, let uuid = UUID(uuidString: str) {
+                        DispatchQueue.main.async { onReorder(uuid, item.id) }
+                        handled = true
+                    } else if let d = data as? Data, let s = String(data: d, encoding: .utf8), let uuid = UUID(uuidString: s) {
+                        DispatchQueue.main.async { onReorder(uuid, item.id) }
+                        handled = true
+                    }
+                }
+                onDragEnd()
+                return handled
+            }
+        }
+        .scaleEffect((isDraggingSource && sidebarHovering) ? 0.85 : 1.0)
+        .opacity((isDraggingSource && sidebarHovering) ? 0.35 : 1.0)
+        .animation(.spring(response: 0.25, dampingFraction: 0.9), value: isDraggingSource)
+        .animation(.spring(response: 0.25, dampingFraction: 0.9), value: sidebarHovering)
+        .overlay(alignment: .leading) {
+            if isDropTargeted {
+                Rectangle()
+                    .fill(headerPalette.main)
+                    .frame(width: 2)
+                    .opacity(0.9)
+            }
         }
     }
+    @State private var isDropTargeted: Bool = false
     private func loadPlainString(_ url: URL) -> String? {
         if let d = try? Data(contentsOf: url), let s = String(data: d, encoding: .utf8) { return s }
         return try? String(contentsOf: url)

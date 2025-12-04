@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import UniformTypeIdentifiers
 
 struct PanelRootView: View {
     @ObservedObject var controller: AppController
@@ -16,6 +17,7 @@ struct PanelRootView: View {
     @State private var showColorPopover: Bool = false
     @State private var renameInput: String = ""
     @State private var colorInput: String = ""
+    @State private var sidebarDropTargetID: UUID?
     @AppStorage("historyLayoutStyle") private var layoutStyleRaw: String = "horizontal"
     @AppStorage("panelPositionVertical") private var panelPositionVertical: Double = 0
     @AppStorage("panelPositionHorizontal") private var panelPositionHorizontal: Double = 0
@@ -210,22 +212,7 @@ struct PanelRootView: View {
                         ScrollView {
                             LazyVStack(alignment: .leading, spacing: 8) {
                                 ForEach(controller.boards) { b in
-                                    HStack(spacing: 8) {
-                                        Circle()
-                                            .fill(boardColor(b))
-                                            .frame(width: 10, height: 10)
-                                        Text(boardDisplayName(b))
-                                            .font(.system(size: 13, weight: .medium))
-                                            .foregroundStyle((controller.selectedBoardID == b.id) ? .white : .primary)
-                                    }
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 6)
-                                    .background(
-                                        Group { if controller.selectedBoardID == b.id { AppTheme.highlightGradient } else { Color.clear } }
-                                    )
-                                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                                    .contentShape(Rectangle())
+                                    BoardRowView(board: b, isActive: (controller.selectedBoardID == b.id), color: boardColor(b), onTap: { controller.selectBoard(b.id) }, onDropItem: { uuid in controller.addToBoardExclusive(uuid, b.id) }, onDropTargetChange: { v in sidebarDropTargetID = v ? b.id : (sidebarDropTargetID == b.id ? nil : sidebarDropTargetID) })
                                     .contextMenu {
                                         if b.id == controller.store.defaultBoardID {
                                             Text(L("panel.defaultBoard.uneditable"))
@@ -236,7 +223,6 @@ struct PanelRootView: View {
                                             Button(L("panel.deleteBoard")) { try? controller.store.deletePinboard(b.id); controller.refresh() }
                                         }
                                     }
-                                    .onTapGesture { controller.selectBoard(b.id) }
                                     .popover(isPresented: Binding(get: { showRenamePopover && editingBoard?.id == b.id }, set: { v in showRenamePopover = v })) {
                                         VStack(alignment: .leading, spacing: 8) {
                                             Text(L("panel.rename.title")).font(.system(size: 13, weight: .medium))
@@ -343,7 +329,7 @@ struct PanelRootView: View {
                         }
                 )
                 VStack(spacing: 0) {
-                    HistoryTimelineView(items: controller.items, boards: controller.boards, defaultBoardID: controller.store.defaultBoardID, currentBoardID: controller.selectedBoardID, onPaste: { item, plain in controller.pasteItem(item, plain: plain) }, onAddToBoard: { item, bid in controller.addToBoard(item, bid) }, onDelete: { item in controller.deleteItem(item) }, selectedItemID: controller.selectedItemID, onSelect: { item in controller.onItemTapped(item) }, onRename: { item, name in controller.renameItem(item, name: name) }, scrollOnSelection: controller.selectionByKeyboard, selectedIDs: controller.selectedIDs, selectedOrder: controller.selectedOrder, selectionMode: controller.selectionMode, onSelectedItemFrame: { rect in
+                    HistoryTimelineView(items: controller.items, boards: controller.boards, defaultBoardID: controller.store.defaultBoardID, currentBoardID: controller.selectedBoardID, onPaste: { item, plain in controller.pasteItem(item, plain: plain) }, onAddToBoard: { item, bid in controller.addToBoard(item, bid) }, onDelete: { item in controller.deleteItem(item) }, selectedItemID: controller.selectedItemID, onSelect: { item in controller.onItemTapped(item) }, onRename: { item, name in controller.renameItem(item, name: name) }, scrollOnSelection: controller.selectionByKeyboard, selectedIDs: controller.selectedIDs, selectedOrder: controller.selectedOrder, selectionMode: controller.selectionMode, onReorder: { dragID, targetID in controller.reorderItem(dragID, before: targetID) }, sidebarHovering: (sidebarDropTargetID != nil), onSelectedItemFrame: { rect in
                         if let rect, let win = NSApp.keyWindow ?? NSApp.windows.first {
                             let windowHeight = win.contentView?.bounds.height ?? win.frame.size.height
                             let cocoaY = windowHeight - (rect.origin.y + rect.size.height)
@@ -413,6 +399,54 @@ struct PanelRootView: View {
             }
             return .accentColor
         }
+    }
+}
+
+private struct BoardRowView: View {
+    let board: Pinboard
+    let isActive: Bool
+    let color: Color
+    let onTap: () -> Void
+    let onDropItem: (UUID) -> Void
+    let onDropTargetChange: (Bool) -> Void
+    @State private var isDropTarget: Bool = false
+    var body: some View {
+        HStack(spacing: 8) {
+            Circle()
+                .fill(color)
+                .frame(width: 10, height: 10)
+            Text(board.name)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(isActive ? .white : .primary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(
+            Group { if isActive || isDropTarget { AppTheme.highlightGradient } else { Color.clear } }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .contentShape(Rectangle())
+        .onTapGesture { onTap() }
+        .onDrop(of: [UTType.text], isTargeted: $isDropTarget) { providers in
+            guard let p = providers.first else { return false }
+            var handled = false
+            p.loadItem(forTypeIdentifier: UTType.text.identifier, options: nil) { (data, error) in
+                if let str = data as? String, let uuid = UUID(uuidString: str) {
+                    DispatchQueue.main.async { onDropItem(uuid) }
+                    handled = true
+                } else if let d = data as? Data, let s = String(data: d, encoding: .utf8), let uuid = UUID(uuidString: s) {
+                    DispatchQueue.main.async { onDropItem(uuid) }
+                    handled = true
+                }
+            }
+            return handled
+        }
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(isDropTarget ? Color.white.opacity(0.8) : Color.clear, lineWidth: isDropTarget ? 2 : 0)
+        )
+        .onChange(of: isDropTarget) { v in onDropTargetChange(v) }
     }
 }
 // 搜索弹窗视图已移除，统一由顶部按钮弹出
