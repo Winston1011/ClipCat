@@ -81,6 +81,13 @@ final class AppController: ObservableObject {
                 }
             }
         }
+        panel.onQuickPaste = { [weak self] idx, plain in
+            guard let self = self else { return }
+            let list = self.search.search(self.query, filters: self.filters, limit: 100)
+            if idx-1 < list.count {
+                self.pasteItem(list[idx-1], plain: plain)
+            }
+        }
         $searchPopoverVisible
             .sink { [weak self] v in self?.panel.setSearchActive(v) }
             .store(in: &cancellables)
@@ -109,7 +116,6 @@ final class AppController: ObservableObject {
     func start() {
         monitor.start()
         hotkeys.registerShowPanel()
-        hotkeys.registerQuickPasteSlots()
         hotkeys.registerStackToggle()
         refresh()
     }

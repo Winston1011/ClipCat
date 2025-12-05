@@ -204,7 +204,6 @@ public struct SettingsView: View {
             try? settingsStore.save(s)
             HotkeyService.shared?.unregisterAll()
             HotkeyService.shared?.registerShowPanel()
-            HotkeyService.shared?.registerQuickPasteSlots()
             HotkeyService.shared?.registerStackToggle()
         }
         .onChange(of: panelPositionVertical) { _ in }

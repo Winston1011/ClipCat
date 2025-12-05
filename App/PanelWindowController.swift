@@ -30,6 +30,7 @@ public final class PanelWindowController: NSObject, NSWindowDelegate, NSTextFiel
     public var onArrowDown: (() -> Void)?
     public var onEnter: (() -> Void)?
     public var onSpace: (() -> Void)?
+    public var onQuickPaste: ((Int, Bool) -> Void)?
     public var onShown: (() -> Void)?
     private var isSearchActive: Bool = false
     public func setSearchActive(_ active: Bool) {
@@ -292,7 +293,26 @@ public final class PanelWindowController: NSObject, NSWindowDelegate, NSTextFiel
                     return nil
                 }
                 let flags = ev.modifierFlags
-                if flags.contains(.command) || flags.contains(.control) || flags.contains(.option) { return ev }
+                if flags.contains(.command) {
+                    let plain = flags.contains(.shift)
+                    let idx: Int? = {
+                        switch keycode {
+                        case 18: return 1
+                        case 19: return 2
+                        case 20: return 3
+                        case 21: return 4
+                        case 23: return 5
+                        case 22: return 6
+                        case 26: return 7
+                        case 28: return 8
+                        case 25: return 9
+                        default: return nil
+                        }
+                    }()
+                    if let i = idx { self.onQuickPaste?(i, plain); return nil }
+                    return ev
+                }
+                if flags.contains(.control) || flags.contains(.option) { return ev }
                 if !self.isFirstResponderTextInput() && !self.isAnyTextInputActive() {
                     if keycode == 123 { self.onArrowLeft?(); return nil }
                     if keycode == 124 { self.onArrowRight?(); return nil }
